@@ -48,7 +48,7 @@ def create_todo_list_item():
         try:
             due_date = parser.parse(request_json.get('due_date'))
         except ValueError:
-            return jsonify({'error': 'invalid date'})
+            return jsonify({'error': 'invalid date'}), 400
 
     list_item = TodoListItem(
         text=request_json.get('text'),
