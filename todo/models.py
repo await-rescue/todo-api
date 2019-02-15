@@ -7,8 +7,8 @@ from db import Base, db_session
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    email = Column(String)
-    password_hash = Column(String)
+    email = Column(String, unique=True)
+    password_hash = Column(String, nullable=False)
 
     # TODO: backref to items?
 

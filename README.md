@@ -31,7 +31,7 @@ curl -u test@test.com:password -i -X GET http://localhost:5000/todo/
 curl -u test@test.com:password -i -X GET http://localhost:5000/todo/\?sort\=true
 ```
 
-#### Toggle completed flag for an item
+#### Toggle completed flag for an item (id in the URL)
 ```
 curl -u test@test.com:password -X PATCH http://localhost:5000/todo/1/complete/
 ```
@@ -41,12 +41,19 @@ curl -u test@test.com:password -X PATCH http://localhost:5000/todo/1/complete/
 curl -u test@test.com:password -i -X GET http://localhost:5000/todo/\?show_completed\=true
 ```
 
-#### Update an item
+#### Update an item (id in the URL)
 ```
 curl -u test@test.com:password -d '{"text":"A changed item"}' -H "Content-Type: application/json" -X PATCH http://localhost:5000/todo/1/update/
 ```
 
-#### Delete an item
+#### Delete an item (id in the URL)
 ```
 curl -u test@test.com:password -X DELETE http://localhost:5000/todo/1/delete/
 ```
+
+
+#####
+Choices and assumptions
+- Flask for a framework
+- SQL database as it's fit for this purpose
+- Time spent was about 4 hours
