@@ -21,7 +21,7 @@ docker run -p 5000:5000 todo
 #### Toggle completed flag for an item
 `curl -u test@test.com:password -X PATCH http://localhost:5000/todo/1/complete/`
 
-##### Show completed items in the list
+#### Show completed items in the list
 `curl -u test@test.com:password -i -X GET http://localhost:5000/todo/\?show_completed\=true`
 
 #### Update an item
