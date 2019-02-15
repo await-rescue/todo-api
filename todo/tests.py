@@ -1,11 +1,10 @@
 import unittest
-import flask_testing
 import base64
 import json
 
-from flask import Flask, g, appcontext_pushed
+from flask import Flask, g
 from app import app
-from db import db_session, init_db, destroy_db
+from db import init_db, destroy_db
 
 from models import User
 
