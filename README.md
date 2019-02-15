@@ -18,7 +18,7 @@ docker run -p 5000:5000 todo
 `curl -u test@test.com:password -d '{"text":"A list item", "due_date":"2020-10-23T08:00:00-07:00"}' -H "Content-Type: application/json" -X POST http://localhost:5000/todo/create/`
 
 #### Get todo list for the user, sorted by id (default) or due date
-`curl -u ben@test.com:password -i -X GET http://localhost:5000/todo/`
+`curl -u test@test.com:password -i -X GET http://localhost:5000/todo/`
 `curl -u test@test.com:password -i -X GET http://localhost:5000/todo/\?sort\=true`
 
 #### Toggle completed flag for an item
