@@ -86,7 +86,7 @@ def update_todo_list_item(id):
     except:
         return jsonify({'error': 'cannot update values {}'.format(request_json)}), 400
 
-    return jsonify(results=item.serialize), 200
+    return jsonify(item.serialize), 200
 
 
 @todo_list_api.route('/todo/<id>/delete/', methods=['DELETE'])
