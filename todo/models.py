@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from db import Base, db_session
 
@@ -7,17 +8,35 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     email = Column(String)
-    # TODO: encrypt!
     password_hash = Column(String)
+    authenticated = Column(Boolean, default=False)
 
-
-    def __init__(self, email=None, password_hash=None):
+    def __init__(self, email=None, password=None):
         self.email = email
-        password_hash = password_hash
+        self.set_password(password)
 
     def save(self):
         db_session.add(self)
         db_session.commit()
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    # Flask-Login required methods
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self.email
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymous(self):
+        return False
 
 
 # TODO: check defaults/not nulls

@@ -21,3 +21,8 @@ auth
 return only own lst items
 modify list items
 sorted view
+
+
+
+#### Create a user
+`http POST :5000/user/create/ email="ben@test.com" password="password"`
