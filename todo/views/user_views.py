@@ -10,7 +10,7 @@ def create_user():
     request_json = request.get_json()
 
     if not 'email' in request_json or not 'password' in request_json:
-        return jsonify({'error': 'Fields "email" and "password are requried"'}), 400
+        return jsonify({'error': 'Fields "email" and "password are required"'}), 400
 
     try:
         User(
