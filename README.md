@@ -1,10 +1,13 @@
 # ToDo List API
 
-### Run using docker
+### Run using docker (from todo folder)
 ```
 docker build -t todo:latest .
 docker run -p 5000:5000 todo
 ```
+
+#### Run tests (from todo folder)
+`python tests.py`
 
 
 #### Create a user
@@ -29,7 +32,3 @@ docker run -p 5000:5000 todo
 
 #### Delete an item
 `curl -u test@test.com:password -X DELETE http://localhost:5000/todo/1/delete/`
-
-
-#### Run tests
-`python todo/tests.py`
