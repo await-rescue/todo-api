@@ -32,4 +32,4 @@ docker run -p 5000:5000 todo
 
 
 #### Run tests
-`python app.py`
+`python todo/tests.py`
