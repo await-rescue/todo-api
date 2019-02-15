@@ -17,8 +17,6 @@ And any other info.
 
 
 TODO:
-auth
-return only own lst items
 modify list items
 sorted view
 
@@ -26,3 +24,6 @@ sorted view
 
 #### Create a user
 `http POST :5000/user/create/ email="ben@test.com" password="password"`
+
+#### Get todo list for the user 
+curl -u ben@test.com:password -i -X GET http://localhost:5000/todo/

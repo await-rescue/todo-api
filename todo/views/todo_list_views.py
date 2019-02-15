@@ -1,5 +1,4 @@
 from flask import jsonify, request, Blueprint, g
-# from flask_login import login_required
 from flask_httpauth import HTTPBasicAuth
 from models import TodoListItem, User
 
@@ -16,12 +15,12 @@ def verify_password(username, password):
     g.user = user
     return True
 
-# TODO: auth and filter by user_id
+
+# TODO: sorting param, hidden param
 @todo_list_api.route('/todo/', methods=['GET'])
 @auth.login_required
 def get_todo_list():
-    # items = TodoListItem.query.filter(TodoListItem.user_id = 1)
-    items = TodoListItem.query.all()
+    items = TodoListItem.query.filter_by(user_id=g.user.id)
     return jsonify(results=[i.serialize for i in items]), 200
 
 
@@ -29,10 +28,13 @@ def get_todo_list():
 @auth.login_required
 def create_todo_list_item():
     request_json = request.get_json()
+    if not 'text' in request_json:
+        return jsonify({'error': 'Field "text" is required"'}), 400
     
     list_item = TodoListItem(
         text=request_json.get('text'),
-        user_id=1
+        due_date=request_json.get('due_date'),
+        user_id=g.user.id
     )
     list_item.save()
 
