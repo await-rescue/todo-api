@@ -1,3 +1,5 @@
+from dateutil import parser
+
 from flask import jsonify, request, Blueprint, g
 from flask_httpauth import HTTPBasicAuth
 from models import TodoListItem, User
@@ -27,7 +29,10 @@ def get_todo_list():
     else:
         items = TodoListItem.query.filter_by(user_id=g.user.id, is_completed=False)
 
-    
+    sort = request.args.get('sort')
+    if sort:
+        items = items.order_by(TodoListItem.due_date)
+
     return jsonify(results=[i.serialize for i in items]), 200
 
 
@@ -38,10 +43,16 @@ def create_todo_list_item():
     if not 'text' in request_json:
         return jsonify({'error': 'Field "text" is required"'}), 400
     
-    # TODO: parse date
+    due_date = None
+    if request_json.get('due_date'):
+        try:
+            due_date = parser.parse(request_json.get('due_date'))
+        except ValueError:
+            return jsonify({'error': 'invalid date'})
+
     list_item = TodoListItem(
         text=request_json.get('text'),
-        due_date=request_json.get('due_date'),
+        due_date=due_date,
         user_id=g.user.id
     )
     list_item.save()

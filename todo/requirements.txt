@@ -1,3 +1,5 @@
 flask
 Flask-HTTPAuth
+Flask-Testing
 SQLAlchemy
+python-dateutil
