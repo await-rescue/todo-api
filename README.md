@@ -17,13 +17,25 @@ And any other info.
 
 
 TODO:
-modify list items
+modify list items (generic)
 sorted view
+tests
 
+### Run using docker
+```
+docker build -t todo:latest .
+docker run -p 5000:5000 todo
+```
 
 
 #### Create a user
 `http POST :5000/user/create/ email="ben@test.com" password="password"`
 
 #### Get todo list for the user 
-curl -u ben@test.com:password -i -X GET http://localhost:5000/todo/
+`curl -u ben@test.com:password -i -X GET http://localhost:5000/todo/`
+
+#### Toggle completed flag for an item
+`http PATCH :5000/todo/2/complete/ -a ben@test.com:password`
+
+##### Show completed items
+`curl -u ben@test.com:password -i -X GET http://localhost:5000/todo/\?show_completed\=true`
