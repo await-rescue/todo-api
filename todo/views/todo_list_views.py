@@ -18,7 +18,6 @@ def verify_password(username, password):
     return True
 
 
-# TODO: sorting param
 @todo_list_api.route('/todo/', methods=['GET'])
 @auth.login_required
 def get_todo_list():
@@ -72,3 +71,12 @@ def toggle_item_completed(id):
     return jsonify(results=item.serialize), 200
 
 # TODO: generic update view (modify the model to have an update func)
+@todo_list_api.route('/todo/<id>/update/', methods=['PATCH'])
+@auth.login_required
+def update_todo_list_item(id):
+    request_json = request.get_json()
+    item = TodoListItem.query.filter_by(user_id=g.user.id, id=id).first().update(request_json)
+    if not item:
+        return jsonify({'error': '404 not found'}), 404
+
+    return jsonify(results=item.serialize), 200

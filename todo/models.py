@@ -40,6 +40,9 @@ class TodoListItem(Base):
         self.user_id = user_id
         self.due_date = due_date
 
+    def update(self, data):
+        pass
+
     def save(self):
         db_session.add(self)
         db_session.commit()
