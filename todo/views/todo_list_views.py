@@ -56,7 +56,7 @@ def create_todo_list_item():
     )
     list_item.save()
 
-    return jsonify(list_item.serialize), 200
+    return jsonify(list_item.serialize), 201
 
 @todo_list_api.route('/todo/<id>/complete/', methods=['PATCH'])
 @auth.login_required
@@ -68,15 +68,20 @@ def toggle_item_completed(id):
     item.is_completed = not item.is_completed
     item.save()
 
-    return jsonify(results=item.serialize), 200
+    return jsonify(item.serialize), 200
 
-# TODO: generic update view (modify the model to have an update func)
+
 @todo_list_api.route('/todo/<id>/update/', methods=['PATCH'])
 @auth.login_required
 def update_todo_list_item(id):
     request_json = request.get_json()
-    item = TodoListItem.query.filter_by(user_id=g.user.id, id=id).first().update(request_json)
+    item = TodoListItem.query.filter_by(user_id=g.user.id, id=id).first()
     if not item:
         return jsonify({'error': '404 not found'}), 404
+
+    try:
+        item.update(request_json)
+    except:
+        return jsonify({'error': 'cannot update values {}'.format(request_json)}), 400
 
     return jsonify(results=item.serialize), 200

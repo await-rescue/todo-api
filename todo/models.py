@@ -41,7 +41,9 @@ class TodoListItem(Base):
         self.due_date = due_date
 
     def update(self, data):
-        pass
+        for k,v in data.items():
+            setattr(self, k, v)
+            self.save()
 
     def save(self):
         db_session.add(self)
