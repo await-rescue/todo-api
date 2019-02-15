@@ -39,13 +39,21 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
 
     def test_get_todo_list(self):
-        res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1'})
-        res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1'})
+        res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1', 'due_date': '2020-10-23T08:00:00-07:00'})
+        res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1', 'due_date': '2010-10-23T08:00:00-07:00'})
+        
         res = self.open_with_auth('/todo/', 'GET', 'test', 'test')
         self.assertEqual(res.status_code, 200)
         json_data = json.loads(res.data)
         self.assertEqual(len(json_data['results']), 2)
-   
+        self.assertEqual(json_data['results'][0]['id'], 1)
+
+        res = self.open_with_auth('/todo/?sort=true', 'GET', 'test', 'test')
+        self.assertEqual(res.status_code, 200)
+        json_data = json.loads(res.data)
+        self.assertEqual(len(json_data['results']), 2)
+        self.assertEqual(json_data['results'][0]['id'], 2)
+
     def test_create_item(self):
         res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1'})
         self.assertEqual(res.status_code, 201)
