@@ -27,13 +27,11 @@ class User(Base):
         return check_password_hash(self.password_hash, password)
 
 
-# TODO: check defaults/not nulls
 class TodoListItem(Base):
     __tablename__ = 'todo_list_items'
     id = Column(Integer, primary_key=True)
     text = Column(String)
-    is_done = Column(Boolean, default=False)
-    is_hidden = Column(Boolean, default=False)
+    is_completed = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     due_date = Column(DateTime, default=None)
 
@@ -51,7 +49,6 @@ class TodoListItem(Base):
         return {
             'id': self.id,
             'text': self.text,
-            'is_done': self.is_done,
-            'is_hidden': self.is_hidden,
+            'is_completed': self.is_completed,
             'due_date': self.due_date
         }

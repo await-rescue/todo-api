@@ -16,7 +16,7 @@ def verify_password(username, password):
     return True
 
 
-# TODO: sorting param, hidden param
+# TODO: sorting param, show completed param
 @todo_list_api.route('/todo/', methods=['GET'])
 @auth.login_required
 def get_todo_list():
@@ -39,3 +39,15 @@ def create_todo_list_item():
     list_item.save()
 
     return jsonify(list_item.serialize), 200
+
+@todo_list_api.route('/todo/<id>/complete/', methods=['PATCH'])
+@auth.login_required
+def toggle_item_completed(id):
+    item = TodoListItem.query.filter_by(user_id=g.user.id, id=id).first()
+    if not item:
+        return jsonify({'error': '404 not found'}), 404
+    
+    item.is_completed = not item.is_completed
+    item.save()
+
+    return jsonify(results=item.serialize), 200
