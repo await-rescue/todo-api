@@ -15,6 +15,3 @@ COPY . /app
 ENTRYPOINT [ "python3" ]
 
 CMD [ "app.py" ]
-
-# docker build -t todo:latest .
-# docker run -p 5000:5000 todo
