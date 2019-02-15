@@ -3,6 +3,7 @@ from dateutil import parser
 from flask import jsonify, request, Blueprint, g
 from flask_httpauth import HTTPBasicAuth
 from models import TodoListItem, User
+from db import db_session
 
 todo_list_api = Blueprint('todo_list_api', __name__)
 auth = HTTPBasicAuth()
@@ -85,3 +86,12 @@ def update_todo_list_item(id):
         return jsonify({'error': 'cannot update values {}'.format(request_json)}), 400
 
     return jsonify(results=item.serialize), 200
+
+
+@todo_list_api.route('/todo/<id>/delete/', methods=['DELETE'])
+@auth.login_required
+def delete_todo_list_item(id):
+    TodoListItem.query.filter_by(user_id=g.user.id, id=id).delete()
+    db_session.commit()
+
+    return jsonify({}), 200

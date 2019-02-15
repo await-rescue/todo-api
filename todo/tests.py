@@ -24,7 +24,6 @@ class TestAPI(unittest.TestCase):
     def tearDown(self):
         destroy_db()
 
-
     def open_with_auth(self, url, method, username, password, json=None):
         return self.app.open(url,
             method=method,
@@ -76,6 +75,18 @@ class TestAPI(unittest.TestCase):
         res = self.open_with_auth('/todo/', 'GET', 'test', 'test')
         json_data = json.loads(res.data)
         self.assertEqual(len(json_data['results']), 1)
+
+    def test_delete_item(self):
+        res = self.open_with_auth('/todo/create/', 'POST', 'test', 'test', json={'text': 'test item1'})
+        json_data = json.loads(res.data)
+        
+        res = self.open_with_auth('/todo/{}/delete/'.format(json_data['id']), 'DELETE', 'test', 'test')
+        json_data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+
+        res = self.open_with_auth('/todo/', 'GET', 'test', 'test')
+        json_data = json.loads(res.data)
+        self.assertEqual(len(json_data['results']), 0)
 
 if __name__ == '__main__':
     unittest.main()
