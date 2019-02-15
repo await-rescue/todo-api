@@ -59,6 +59,7 @@ def create_todo_list_item():
 
     return jsonify(list_item.serialize), 201
 
+
 @todo_list_api.route('/todo/<id>/complete/', methods=['PATCH'])
 @auth.login_required
 def toggle_item_completed(id):
