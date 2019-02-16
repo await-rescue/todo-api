@@ -10,8 +10,6 @@ class User(Base):
     email = Column(String, unique=True)
     password_hash = Column(String, nullable=False)
 
-    # TODO: backref to items?
-
     def __init__(self, email=None, password=None):
         self.email = email
         self.set_password(password)

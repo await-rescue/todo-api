@@ -20,4 +20,4 @@ def create_user():
     except:
         return jsonify({'error': 'Failed to create user'}), 500
 
-    return jsonify({'result': 'User created'}), 201
+    return jsonify({'results': 'User created'}), 201
